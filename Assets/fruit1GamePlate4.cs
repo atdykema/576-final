@@ -24,8 +24,8 @@ public class fruit1GamePlate4 : MonoBehaviour
     {
         
         if(other.name == "Mungo"){
-            if( gm.fruit1Game == 2){
-                gm.fruit1Game = 3;
+            if( gm.fruit1Game == 3){
+                gm.fruit1Game = 4;
                 this.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0f);
                 isPressed = true;
                 gm.fruit1.SetActive(true);

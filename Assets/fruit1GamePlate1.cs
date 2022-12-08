@@ -22,7 +22,7 @@ public class fruit1GamePlate1 : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
+        Debug.Log("hello from 1");
         if(other.name == "Mungo"){
             if( gm.fruit1Game == 0){
                 gm.fruit1Game = 1;

@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         fruit1Game = 0;
-        fruit1 = GameObject.Find("Fruit1");
+        fruit1 = GameObject.Find("fruit1");
         fruit1GamePlate1 = GameObject.Find("fruit1GamePlate1");
         fruit1GamePlate2 = GameObject.Find("fruit1GamePlate2");
         fruit1GamePlate3 = GameObject.Find("fruit1GamePlate3");
