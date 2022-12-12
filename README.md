@@ -26,3 +26,9 @@ Collectible items on the map
 NPC functionality
 
 Educational portion functionality & UI (additional matching game)
+
+Links to resources used in project:
+
+MovingPlatformPath.cs, MovingPlatforms: https://www.youtube.com/watch?v=ly9mK0TGJJo
+
+Improved Jumping mechanics: https://www.youtube.com/watch?v=ynh7b-AUSPE
