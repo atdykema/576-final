@@ -8,10 +8,10 @@ public class EvilNpc : MonoBehaviour
     public NavMeshAgent evilNpc;
 
     public Transform player;
-    
     // Start is called before the first frame update
     void Start()
     {
+        
 
     }
 

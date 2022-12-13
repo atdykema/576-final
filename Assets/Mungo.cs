@@ -10,6 +10,8 @@ public class Mungo : MonoBehaviour
     int walk_velocity;
     private float horizVelocity;
     private bool dubJump;
+    public Dictionary<int, int> fruitList;
+
 
     // Fields used for inventory
     [SerializeField] private UI_Inventory uiInventory;
@@ -18,12 +20,7 @@ public class Mungo : MonoBehaviour
     // can be level 1,2,3
     public int level = 1;
 
-    private void Awake()
-    {
-        inventory = new Inventory();
-        inventory.level = level;
-        uiInventory.SetInventory(inventory);
-    }
+    
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +29,17 @@ public class Mungo : MonoBehaviour
         cc = GetComponent<CharacterController>();
         walk_velocity = 100;
         dubJump = false;
+
+        inventory = new Inventory();
+        inventory.level = level;
+        uiInventory.SetInventory(inventory);
+        
+        //create a dictionary to keep track of which fruits have been collected
+        //key is fruit number (1-5) and value is whether it is collected (0 = not collected, 1 = collected)
+        fruitList = new Dictionary<int, int>();
+        for(int i = 1; i <= 5; i++){
+            fruitList.Add(i, 0);
+        }
     }
 
     // Update is called once per frame
@@ -90,7 +98,7 @@ public class Mungo : MonoBehaviour
             }
 
             if(!cc.isGrounded && !dubJump){
-                if(Input.GetKey(KeyCode.Tab))
+                if(Input.GetKey(KeyCode.Q))
                 {  
                     cc.Move(movement_direction * velocity);
                     dubJump = true;
@@ -99,7 +107,9 @@ public class Mungo : MonoBehaviour
 
             movement_direction.y = (float)horizVelocity;
 
-            cc.Move(movement_direction * Time.deltaTime * velocity);
+            movement_direction.x *= Time.deltaTime * velocity;
+            movement_direction.z *= Time.deltaTime * velocity;
+            cc.Move(movement_direction);
 
         }
     }
