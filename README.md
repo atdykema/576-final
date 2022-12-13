@@ -28,7 +28,15 @@ NPC functionality
 Educational portion functionality & UI (additional matching game)
 
 Links to resources used in project:
+    MovingPlatformPath.cs, MovingPlatforms: https://www.youtube.com/watch?v=ly9mK0TGJJo
+    Improved Jumping mechanics: https://www.youtube.com/watch?v=ynh7b-AUSPE
+    Basic AI referenced in creating EvilNpc.cs: https://www.youtube.com/watch?v=UvDqnbjEEak
 
-MovingPlatformPath.cs, MovingPlatforms: https://www.youtube.com/watch?v=ly9mK0TGJJo
+Unity Assets:
+    CastlePack
+    Cobblestone
+    HandPainted Lava Textures
+    JungleTemple
+    SpaceSkies Free
 
-Improved Jumping mechanics: https://www.youtube.com/watch?v=ynh7b-AUSPE
+
