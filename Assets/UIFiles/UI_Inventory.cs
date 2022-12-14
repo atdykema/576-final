@@ -9,9 +9,11 @@ public class UI_Inventory : MonoBehaviour
     private Inventory inventory;
     //private Transform itemSlotContainer;
     //private Transform itemSlotTemplate;
+    public Text totalNetValTxt;
 
     public GameObject itemSlotContainer;
     public GameObject itemSlotTemplate;
+    public int total = 0;   // keep track of mungos net value
 
     private Item removingItem;
     //itemToRemoveList = new List<Item>();
@@ -26,7 +28,7 @@ public class UI_Inventory : MonoBehaviour
     {
         // remove existing transforms in the container
         DestroyExistingInventory();
-
+        total = 0;
         int x = 0;
         int y = 0;
         int intemSlotCellSize = 85;
@@ -36,6 +38,9 @@ public class UI_Inventory : MonoBehaviour
             itemSlotRectTransform.gameObject.SetActive(true);
             Button itemBtn = itemSlotRectTransform.GetComponent<Button>();
             
+            // add item value to total
+            
+
             itemBtn.onClick.AddListener(delegate {RemoveInventoryItem(item); });
             //itemBtn.onClick.AddListener(() => {LogName(itemBtn); });
             //itemBtn.onClick.AddListener(TaskOnClick);
@@ -48,10 +53,12 @@ public class UI_Inventory : MonoBehaviour
             if (item.amount > 1)
             {
                 count_txt.text = item.amount.ToString();
+                total = total + (item.GetValue() * item.amount);
             }
             else 
             {
                 count_txt.text = "";
+                total = total + item.GetValue();
             }
             x++;
             if (x > 1)
@@ -60,6 +67,7 @@ public class UI_Inventory : MonoBehaviour
                 y--;
             }
         }
+        totalNetValTxt.text = "$" + total.ToString();
     }
 
     private void DestroyExistingInventory()

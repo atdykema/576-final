@@ -44,7 +44,7 @@ public class Item
                 default:
                 case ItemType.PurpleFood:       return 5000;
                 case ItemType.Cake:             return 300;
-                case ItemType.Avacado:          return 100;
+                case ItemType.Avacado:          return 200;
                 case ItemType.Strawberry:       return 100;
                 case ItemType.Eggs:             return 50;
                 case ItemType.Apple:            return 10;
@@ -57,9 +57,9 @@ public class Item
                 default:
                 case ItemType.PurpleFood:       return 5020;
                 case ItemType.Cake:             return 350;
-                case ItemType.Avacado:          return 150;
+                case ItemType.Avacado:          return 255;
                 case ItemType.Strawberry:       return 150;
-                case ItemType.Eggs:             return 50;
+                case ItemType.Eggs:             return 55;
                 case ItemType.Apple:            return 15;
             }
         }

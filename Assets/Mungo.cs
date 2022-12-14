@@ -11,19 +11,14 @@ public class Mungo : MonoBehaviour
     private float horizVelocity;
     private bool dubJump;
 
+
     // Fields used for inventory
-    [SerializeField] private UI_Inventory uiInventory;
-    private Inventory inventory;
+    [SerializeField] public UI_Inventory uiInventory;
+    public Inventory inventory;
+    public MathGame mathGame;
     
     // can be level 1,2,3
     public int level = 1;
-
-    private void Awake()
-    {
-        inventory = new Inventory();
-        inventory.level = level;
-        uiInventory.SetInventory(inventory);
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +27,10 @@ public class Mungo : MonoBehaviour
         cc = GetComponent<CharacterController>();
         walk_velocity = 100;
         dubJump = false;
+
+        inventory = new Inventory();
+        inventory.level = level;
+        uiInventory.SetInventory(inventory);
     }
 
     // Update is called once per frame
@@ -40,6 +39,12 @@ public class Mungo : MonoBehaviour
         // display the inventory
         if (Input.GetKeyDown("tab")) {
             ShowMungoInventory();
+        }
+
+        // mimic picking up item
+        //** TODO ** Update to actaully pick up item
+        if (Input.GetKeyDown(KeyCode.Alpha9)) {
+            PlayMathGame(new Item { itemType = Item.ItemType.Eggs, amount = 1, level=level });
         }
 
         if(!has_won){
@@ -104,29 +109,30 @@ public class Mungo : MonoBehaviour
         }
     }
     
-    public void AddItemToInventory(string itemName) {
-        switch (itemName) {
-            default:
-            case "Apple":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Apple, amount = 1, level = level });
-                break;
-            case "Eggs":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Eggs, amount = 1, level = level });
-                break;
-            case "Cake":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Cake, amount = 1, level = level });
-                break;
-            case "Avacado":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Avacado, amount = 1, level = level });
-                break;
-            case "Strawberry":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Strawberry, amount = 1, level = level });
-                break;
-            case "PurpleFood":    
-                inventory.AddItem(new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level = level });
-                break;
+    public void PlayMathGame(Item item) {
+        mathGame.currentItem = item;
+        mathGame.ResetGame();
+        Animator mathAnimator = mathGame.GetComponent<Animator>();
+        if(mathAnimator != null) {
+            mathAnimator.SetBool("show", true);
         }
+    }
+
+    public void EndMathGame() {
+        Animator mathAnimator = mathGame.GetComponent<Animator>();
+        if(mathAnimator != null) {
+            mathAnimator.SetBool("show", false);
+        }
+        Animator animator = uiInventory.GetComponent<Animator>();
+        if(animator != null) {
+            animator.SetBool("show", true);
+        }
+    }
+
+    public void AddItemToInventory(Item item) {
+        inventory.AddItem(item);
         uiInventory.RefreshInventoryItems();
+        //inventory.AddItem(new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level = level });
     }
 
     public void RemoveItemFromInventory(Item item) {

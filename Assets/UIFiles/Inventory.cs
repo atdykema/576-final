@@ -49,7 +49,8 @@ public class Inventory
             bool alreadyInInventory = false;
             foreach(Item inventoryItem in itemList)
             {
-                if (inventoryItem.itemType == item.itemType)
+                if ((inventoryItem.itemType == item.itemType) && 
+                (inventoryItem.level == item.level))
                 {
                     inventoryItem.amount += item.amount;
                     alreadyInInventory = true;
