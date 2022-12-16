@@ -18,7 +18,7 @@ public class Mungo : MonoBehaviour
     private Inventory inventory;
     public MathGame mathGame;
     public Item collidedItem;
-    bool mathGameOpen;
+    bool mathGameOpen;              // useful if you want to pause attackers
     
     // can be level 1,2,3
     public int level = 1;
@@ -164,15 +164,18 @@ public class Mungo : MonoBehaviour
         bool isFood = false;
         switch (other.gameObject.name) {
             default:
-            case "Apple": 
+            //case "Apple": 
+            case "fruit1":
                 collidedItem = new Item { itemType = Item.ItemType.Apple, amount = 1, level=level };
                 isFood = true;
                 break;
-            case "Eggs": 
+            //case "Eggs": 
+            case "fruit2":
                 collidedItem = new Item { itemType = Item.ItemType.Eggs, amount = 1, level=level };
                 isFood = true;
                 break;
-            case "Avacado": 
+            //case "Avacado": 
+            case "fruit3":
                 collidedItem = new Item { itemType = Item.ItemType.Avacado, amount = 1, level=level };
                 isFood = true;
                 break;
@@ -180,7 +183,8 @@ public class Mungo : MonoBehaviour
                 collidedItem = new Item { itemType = Item.ItemType.Cake, amount = 1, level=level };
                 isFood = true;
                 break;
-            case "Purplefood": 
+            //case "Purplefood": 
+            case "fruit4":
                 collidedItem = new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level=level };
                 isFood = true;
                 break;
