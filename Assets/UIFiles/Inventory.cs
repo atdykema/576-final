@@ -10,12 +10,6 @@ public class Inventory
     public Inventory() 
     {
         itemList = new List<Item>();
-        //AddItem(new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level=level });
-        //AddItem(new Item { itemType = Item.ItemType.Cake, amount = 1, level=level});
-        //AddItem(new Item { itemType = Item.ItemType.Avacado, amount = 1, level=level });
-        //AddItem(new Item { itemType = Item.ItemType.Strawberry, amount = 1, level=level });
-        //AddItem(new Item { itemType = Item.ItemType.Eggs, amount = 1, level=level });
-        //AddItem(new Item { itemType = Item.ItemType.Apple, amount = 1, level=level });
     }
 
     public void RemoveItem(Item item)
