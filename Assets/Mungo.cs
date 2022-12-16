@@ -14,8 +14,11 @@ public class Mungo : MonoBehaviour
 
 
     // Fields used for inventory
-    [SerializeField] private UI_Inventory uiInventory;
+    public UI_Inventory uiInventory;
     private Inventory inventory;
+    public MathGame mathGame;
+    public Item collidedItem;
+    bool mathGameOpen;              // useful if you want to pause attackers
     
     // can be level 1,2,3
     public int level = 1;
@@ -113,30 +116,33 @@ public class Mungo : MonoBehaviour
 
         }
     }
-    
-    public void AddItemToInventory(string itemName) {
-        switch (itemName) {
-            default:
-            case "Apple":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Apple, amount = 1, level = level });
-                break;
-            case "Eggs":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Eggs, amount = 1, level = level });
-                break;
-            case "Cake":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Cake, amount = 1, level = level });
-                break;
-            case "Avacado":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Avacado, amount = 1, level = level });
-                break;
-            case "Strawberry":         
-                inventory.AddItem(new Item { itemType = Item.ItemType.Strawberry, amount = 1, level = level });
-                break;
-            case "PurpleFood":    
-                inventory.AddItem(new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level = level });
-                break;
+
+        public void PlayMathGame(Item item) {
+        mathGameOpen = true;
+        mathGame.currentItem = item;
+        mathGame.ResetGame();
+        Animator mathAnimator = mathGame.GetComponent<Animator>();
+        if(mathAnimator != null) {
+            mathAnimator.SetBool("show", true);
         }
+    }
+
+    public void EndMathGame() {
+        Animator mathAnimator = mathGame.GetComponent<Animator>();
+        if(mathAnimator != null) {
+            mathAnimator.SetBool("show", false);
+        }
+        Animator animator = uiInventory.GetComponent<Animator>();
+        if(animator != null) {
+            animator.SetBool("show", true);
+        }
+        mathGameOpen = false;
+    }
+    
+    public void AddItemToInventory(Item item) {
+        inventory.AddItem(item);
         uiInventory.RefreshInventoryItems();
+        //inventory.AddItem(new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level = level });    
     }
 
     public void RemoveItemFromInventory(Item item) {
@@ -151,4 +157,47 @@ public class Mungo : MonoBehaviour
             animator.SetBool("show", !isShowing);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"collision detected{other.gameObject.name}");
+        bool isFood = false;
+        switch (other.gameObject.name) {
+            default:
+            //case "Apple": 
+            case "fruit1":
+                collidedItem = new Item { itemType = Item.ItemType.Apple, amount = 1, level=level };
+                isFood = true;
+                break;
+            //case "Eggs": 
+            case "fruit2":
+                collidedItem = new Item { itemType = Item.ItemType.Eggs, amount = 1, level=level };
+                isFood = true;
+                break;
+            //case "Avacado": 
+            case "fruit3":
+                collidedItem = new Item { itemType = Item.ItemType.Avacado, amount = 1, level=level };
+                isFood = true;
+                break;
+            case "Cake": 
+                collidedItem = new Item { itemType = Item.ItemType.Cake, amount = 1, level=level };
+                isFood = true;
+                break;
+            //case "Purplefood": 
+            case "fruit4":
+                collidedItem = new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level=level };
+                isFood = true;
+                break;
+            case "Strawberry": 
+                collidedItem = new Item { itemType = Item.ItemType.Strawberry, amount = 1, level=level };
+                isFood = true;
+                break;
+        }
+        if (isFood) {
+            PlayMathGame(collidedItem);
+            Debug.Log("should destroy other object");
+            Destroy(other.gameObject);
+        }
+    }
+
 }
