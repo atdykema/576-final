@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FruitScript : MonoBehaviour
 {
@@ -22,7 +23,11 @@ public class FruitScript : MonoBehaviour
         if(other.name == "Mungo"){
             GameObject.Find("Mungo").GetComponent<Mungo>().fruitList[fruitNumber] = 1;
             this.gameObject.SetActive(false);
+            if(fruitNumber == 5){
+                SceneManager.LoadScene("ScoreScreen");
+            }
         }
+
         
     }
 
