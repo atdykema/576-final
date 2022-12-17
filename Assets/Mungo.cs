@@ -51,6 +51,11 @@ public class Mungo : MonoBehaviour
         // display the inventory
         if (Input.GetKeyDown("tab")) {
             ShowMungoInventory();
+            if(has_won == false){
+                has_won = true;
+            }else{
+                has_won = false;
+            }
         }
 
         if(!has_won){
