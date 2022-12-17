@@ -20,7 +20,7 @@ public class KillZone : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if(other.name == "Mungo"){
-            SceneManager.LoadScene("MainScene");
+            SceneManager.LoadScene("StartScene");
         }
         
     }

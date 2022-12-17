@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EvilNpc : MonoBehaviour
 {   
@@ -19,5 +20,12 @@ public class EvilNpc : MonoBehaviour
     void Update()
     {
         evilNpc.SetDestination(player.position);    
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.name == "Mungo"){
+            SceneManager.LoadScene("StartScene");
+        }
     }
 }

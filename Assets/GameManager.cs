@@ -5,12 +5,21 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
+
     public int fruit1Game;
     public GameObject fruit1;
     public GameObject fruit1GamePlate1;
     public GameObject fruit1GamePlate2;
     public GameObject fruit1GamePlate3;
     public GameObject fruit1GamePlate4;
+
+    public int finalBossGame;
+    public GameObject fruit5;
+    public GameObject finalBossPlate1;
+    public GameObject finalBossPlate2;
+    public GameObject finalBossPlate3;
+    public GameObject finalBossPlate4;
+
 
 
     void Awake(){
@@ -28,6 +37,15 @@ public class GameManager : MonoBehaviour
         fruit1GamePlate4 = GameObject.Find("fruit1GamePlate4");
         
         fruit1.SetActive(false);
+
+        finalBossGame = 0;
+        fruit5 = GameObject.Find("fruit5");
+        finalBossPlate1 = GameObject.Find("finalBossPlate1");
+        finalBossPlate2 = GameObject.Find("finalBossPlate2");
+        finalBossPlate3 = GameObject.Find("finalBossPlate3");
+        finalBossPlate4 = GameObject.Find("finalBossPlate4");
+
+        fruit5.SetActive(false);
     }
 
     // Update is called once per frame
@@ -39,6 +57,10 @@ public class GameManager : MonoBehaviour
             fruit1GamePlate3.GetComponent<Renderer>().material.color = new Color(0f, 0f, 0f);
             fruit1GamePlate4.GetComponent<Renderer>().material.color = new Color(0f, 0f, 0f);
             fruit1Game = 0;
+        }
+
+        if(finalBossGame == 4){
+            fruit5.SetActive(true);
         }
     }
 }

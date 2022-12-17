@@ -59,11 +59,11 @@ public class Mungo : MonoBehaviour
 
             if(Input.GetKey(KeyCode.LeftArrow))
             {  
-                transform.Rotate(new Vector3(0.0f, -1f, 0.0f));
+                transform.Rotate(new Vector3(0.0f, -2f, 0.0f));
             }
             else if(Input.GetKey(KeyCode.RightArrow))
             {
-                transform.Rotate(new Vector3(0.0f, 1f, 0.0f));
+                transform.Rotate(new Vector3(0.0f, 2f, 0.0f));
             }
 
             float xdirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
@@ -92,7 +92,6 @@ public class Mungo : MonoBehaviour
             }
 
             if(cc.isGrounded){
-                horizVelocity = 0f;
                 dubJump = false;
                 if(Input.GetKey(KeyCode.Space))
                 {  
@@ -164,6 +163,7 @@ public class Mungo : MonoBehaviour
         bool isFood = false;
         switch (other.gameObject.name) {
             default:
+                break;
             //case "Apple": 
             case "fruit1":
                 collidedItem = new Item { itemType = Item.ItemType.Apple, amount = 1, level=level };
