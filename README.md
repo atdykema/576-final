@@ -27,6 +27,7 @@ Links to resources used in project:
 - MovingPlatformPath.cs, MovingPlatforms: https://www.youtube.com/watch?v=ly9mK0TGJJo
 - Improved Jumping mechanics: https://www.youtube.com/watch?v=ynh7b-AUSPE
 - Basic AI referenced in creating EvilNpc.cs: https://www.youtube.com/watch?v=UvDqnbjEEak
+- Implementing CineMachine camera: https://www.youtube.com/watch?v=jiyOZbKRfaY
 
 Unity Assets:
 - CastlePack
