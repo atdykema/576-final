@@ -20,6 +20,7 @@ public class FruitScript : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        Debug.Log("coming from fruit script");
         if(other.name == "Mungo"){
             GameObject.Find("Mungo").GetComponent<Mungo>().fruitList[fruitNumber] = 1;
             this.gameObject.SetActive(false);

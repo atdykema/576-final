@@ -24,6 +24,9 @@ public class UI_Inventory : MonoBehaviour {
     private int nextItemToDrop = 0;
     public Mungo mungo;
     
+    // this was for testing so I could drop items
+    // right in front of player. Not necessary when 
+    // placed around the scene
     public void SetInventory(Inventory inventory) {
         this.inventory = inventory;
         food_obj_list.Add(strawberry_obj);
@@ -45,6 +48,7 @@ public class UI_Inventory : MonoBehaviour {
         int intemSlotCellSize = 85;
         foreach(Item item in inventory.GetItemList())
         {
+            Debug.Log($"item in getItemList:{item.itemType}");
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate.transform, itemSlotContainer.transform).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
             Button itemBtn = itemSlotRectTransform.GetComponent<Button>();

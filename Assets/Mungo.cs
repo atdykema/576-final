@@ -18,10 +18,11 @@ public class Mungo : MonoBehaviour
     private Inventory inventory;
     public MathGame mathGame;
     public Item collidedItem;
-    bool mathGameOpen;              // useful if you want to pause attackers
-    
+    public bool mathGameOpen = false;              // useful if you want to pause attackers/camera
+    public bool isPaused = false;
+
     // can be level 1,2,3
-    public int level = 1;
+    public int level = 3;
 
     
 
@@ -49,16 +50,12 @@ public class Mungo : MonoBehaviour
     void Update()
     {
         // display the inventory
-        if (Input.GetKeyDown("tab")) {
+        Debug.Log($"mathgamevalue:{mathGameOpen}");
+        if (Input.GetKeyDown("tab") && !mathGameOpen) {
             ShowMungoInventory();
-            if(has_won == false){
-                has_won = true;
-            }else{
-                has_won = false;
-            }
         }
 
-        if(!has_won){
+        if(!has_won && !isPaused){
 
             horizVelocity += (float)(Time.deltaTime * -9.81);
 
@@ -121,7 +118,8 @@ public class Mungo : MonoBehaviour
         }
     }
 
-        public void PlayMathGame(Item item) {
+    public void PlayMathGame(Item item) {
+        Debug.Log("start play math game");
         mathGameOpen = true;
         mathGame.currentItem = item;
         mathGame.ResetGame();
@@ -129,6 +127,21 @@ public class Mungo : MonoBehaviour
         if(mathAnimator != null) {
             mathAnimator.SetBool("show", true);
         }
+        /*
+        //has_won = !has_won;
+        // if he is jumping, make sure you ground him before stopping
+        // time for the pause.
+        float xdirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
+        float zdirection = Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
+        Vector3 movement_direction = new Vector3(xdirection, 0.0f, zdirection);
+        horizVelocity += (float)(Time.deltaTime * -9.81);
+        movement_direction.y = (float)horizVelocity;
+
+        movement_direction.x *= Time.deltaTime * velocity;
+        movement_direction.z *= Time.deltaTime * velocity;
+        cc.Move(movement_direction);
+        */
+        Time.timeScale = 0;
     }
 
     public void EndMathGame() {
@@ -140,7 +153,8 @@ public class Mungo : MonoBehaviour
         if(animator != null) {
             animator.SetBool("show", true);
         }
-        mathGameOpen = false;
+        // Time.timeScale = 1;
+        //has_won = !has_won;
     }
     
     public void AddItemToInventory(Item item) {
@@ -157,9 +171,22 @@ public class Mungo : MonoBehaviour
     public void ShowMungoInventory()  {
         Animator animator = uiInventory.GetComponent<Animator>();
         if(animator != null) {
+            Debug.Log("showing the inventory 1");
             bool isShowing = animator.GetBool("show");
             animator.SetBool("show", !isShowing);
+            //has_won = !has_won;
+            // this variable is backwards 
+            // but its too late to change
+            // hidden when isShowing = true;
+            if (isShowing) {
+                isPaused = false;
+                Time.timeScale = 1;
+            } else {
+                isPaused = true;
+                Time.timeScale = 0;
+            }
         }
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -169,39 +196,49 @@ public class Mungo : MonoBehaviour
         switch (other.gameObject.name) {
             default:
                 break;
-            //case "Apple": 
             case "fruit1":
                 collidedItem = new Item { itemType = Item.ItemType.Apple, amount = 1, level=level };
                 isFood = true;
                 break;
-            //case "Eggs": 
             case "fruit2":
-                collidedItem = new Item { itemType = Item.ItemType.Eggs, amount = 1, level=level };
-                isFood = true;
-                break;
-            //case "Avacado": 
-            case "fruit3":
                 collidedItem = new Item { itemType = Item.ItemType.Avacado, amount = 1, level=level };
+                isFood = true;
+                break; 
+            case "fruit3":
+                collidedItem = new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level=level };
                 isFood = true;
                 break;
             case "Cake": 
                 collidedItem = new Item { itemType = Item.ItemType.Cake, amount = 1, level=level };
                 isFood = true;
                 break;
-            //case "Purplefood": 
             case "fruit4":
-                collidedItem = new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level=level };
+                collidedItem = new Item { itemType = Item.ItemType.Eggs, amount = 1, level=level };
                 isFood = true;
                 break;
-            case "Strawberry": 
+            case "fruit5": 
                 collidedItem = new Item { itemType = Item.ItemType.Strawberry, amount = 1, level=level };
                 isFood = true;
                 break;
         }
         if (isFood) {
+            isPaused = true;
+            // if he is jumping, make sure you ground him before stopping
+            // time for the pause.
+            float xdirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
+            float zdirection = Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
+            Vector3 movement_direction = new Vector3(xdirection, 0.0f, zdirection);
+            horizVelocity += (float)(Time.unscaledDeltaTime * -9.81);
+            movement_direction.y = (float)horizVelocity;
+
+            movement_direction.x *= Time.unscaledDeltaTime * velocity;
+            movement_direction.z *= Time.unscaledDeltaTime * velocity;
+            cc.Move(movement_direction);
+
+
             PlayMathGame(collidedItem);
-            Debug.Log("should destroy other object");
-            Destroy(other.gameObject);
+            // Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
         }
     }
 
