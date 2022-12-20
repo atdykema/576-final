@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
             fruit1Game = 0;
         }
 
+        Debug.Log($"finalBossGame{finalBossGame}");
         if(finalBossGame == 4){
             fruit5.SetActive(true);
         }

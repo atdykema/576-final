@@ -38,6 +38,10 @@ public class Mungo : MonoBehaviour
         inventory.level = level;
         uiInventory.SetInventory(inventory);
         
+        mathGameOpen = false;  
+        isPaused = false;
+        Time.timeScale = 1;
+
         //create a dictionary to keep track of which fruits have been collected
         //key is fruit number (1-5) and value is whether it is collected (0 = not collected, 1 = collected)
         fruitList = new Dictionary<int, int>();
