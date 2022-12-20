@@ -16,6 +16,7 @@ public class MathGame : MonoBehaviour
     public Image food_img_2;
     public Text wrong_ansr_txt;
     public GameObject wrong_ansr_bg;
+    private bool toggledAlready = false;
 
     
 
@@ -35,15 +36,15 @@ public class MathGame : MonoBehaviour
     public void enterMathVal() {
         string answer = answer_field.text;
         int correct = mungo.uiInventory.total + currentItem.GetValue();
-        
+        toggledAlready = false;
         try {
             int.Parse(answer);
             if (int.Parse(answer) != correct) {
-                timestamp_wrong_answer = Time.time;
+                timestamp_wrong_answer = Time.unscaledTime;
                 wrong_ansr_txt.text = "Wrong Answer!\nFood Abandoned";
                 mungo.EndMathGame();
             } else {
-                timestamp_wrong_answer = Time.time;
+                timestamp_wrong_answer = Time.unscaledTime;
                 wrong_ansr_txt.text = "Correct!\nAdded to Inventory";
                 mungo.AddItemToInventory(mungo.collidedItem);
                 mungo.EndMathGame();
@@ -56,9 +57,15 @@ public class MathGame : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        float time_since_wrong_answer = Time.time - timestamp_wrong_answer;
+        float time_since_wrong_answer = Time.unscaledTime - timestamp_wrong_answer;
         if (time_since_wrong_answer > 4.0f) {
             wrong_ansr_bg.SetActive(false);
+            if (!toggledAlready) {
+                mungo.ShowMungoInventory();
+                mungo.mathGameOpen = false;
+                mungo.isPaused = false;
+                toggledAlready = true;
+            }
         } else if (time_since_wrong_answer > 0.75f) {
             wrong_ansr_bg.SetActive(true);
         }

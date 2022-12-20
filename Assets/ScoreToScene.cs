@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ScoreToScene : MonoBehaviour
 {
-    Text score;
+    int score;
     public Text textBox;
     // Start is called before the first frame update
     void Start()
@@ -16,7 +16,7 @@ public class ScoreToScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        score = GameObject.Find("Mungo").GetComponent<Mungo>().mathGame.net_val_txt;
+        score = GameObject.Find("Mungo").GetComponent<Mungo>().uiInventory.total;
         textBox.text = score.ToString();
     }
 }
