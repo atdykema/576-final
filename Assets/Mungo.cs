@@ -1,13 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Mungo : MonoBehaviour
 {
     bool has_won;
-    private CharacterController cc;
-    int velocity;
-    int walk_velocity;
+    bool is_dead;
+    public Animator animation_controller;
+    private CharacterController mung_controller;
+    private float velocity;
+
+    private float walk_velocity;
+    private float run_velocity;
+    private float crouch_velocity;
+    private float jump_velocty;
+
+    private bool is_jumping;
+    private bool is_crouching;
+
     private float horizVelocity;
     private bool dubJump;
     public Dictionary<int, int> fruitList;
@@ -23,19 +35,32 @@ public class Mungo : MonoBehaviour
     // can be level 1,2,3
     public int level = 1;
 
+    public int num_lives;
+    public int cswitch;
+
     
 
     // Start is called before the first frame update
     void Start()
     {
         has_won = false;
-        cc = GetComponent<CharacterController>();
-        walk_velocity = 100;
-        dubJump = false;
+        is_dead = false;
+        animation_controller = GetComponent<Animator>();
+        mung_controller = GetComponent<CharacterController>();
 
         inventory = new Inventory();
         inventory.level = level;
         uiInventory.SetInventory(inventory);
+        num_lives = 3;
+        
+        is_jumping = false;
+        is_crouching = false;
+        dubJump = false;
+
+        walk_velocity = 1.5f;
+        crouch_velocity = (float)(walk_velocity/2.0);
+        run_velocity = (float)(walk_velocity*2.0);
+        jump_velocty = (float)(walk_velocity*3.0);
         
         //create a dictionary to keep track of which fruits have been collected
         //key is fruit number (1-5) and value is whether it is collected (0 = not collected, 1 = collected)
@@ -48,77 +73,141 @@ public class Mungo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // display the inventory
-        if (Input.GetKeyDown("tab")) {
-            ShowMungoInventory();
-            if(has_won == false){
-                has_won = true;
-            }else{
-                has_won = false;
-            }
-        }
 
         if(!has_won){
 
             horizVelocity += (float)(Time.deltaTime * -9.81);
 
-            if(Input.GetKey(KeyCode.LeftArrow))
-            {  
-                transform.Rotate(new Vector3(0.0f, -2f, 0.0f));
+            //fowards
+            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
+
+                //crouching fowards
+                if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+                {
+                    animation_controller.SetInteger("state", 4);
+                    is_crouching = true;
+                    velocity = velocity < 0.0f ? 0.0f : velocity >= crouch_velocity ? crouch_velocity : velocity + 0.01f;
+                }
+                //running fowards
+                else if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)){
+
+                    //jumping fowards
+                    if(Input.GetKey(KeyCode.Space) && !is_jumping)
+                    {
+                        animation_controller.SetInteger("state", 3);
+                        //horizVelocity = horizVelocity < 0.0f ? 0.0f : velocity >= jump_velocty ? jump_velocty : velocity + 0.05f;
+                        horizVelocity = 5;
+                        is_jumping = true;
+                    }
+                    //running fowards
+                    else
+                    {
+                        animation_controller.SetInteger("state", 2);
+                        velocity = velocity < 0.0f ? 0.0f : velocity >= run_velocity ? run_velocity : velocity + 0.05f;
+                    }
+                }
+                //jumping fowards
+                else if(Input.GetKey(KeyCode.Space) && !is_jumping)
+                {
+                    animation_controller.SetInteger("state", 3);
+                    //horizVelocity = horizVelocity < 0.0f ? 0.0f : velocity >= jump_velocty ? jump_velocty : velocity + 0.05f;
+                    horizVelocity = 5;
+                    is_jumping = true;
+                }
+                //walking fowards
+                else
+                {
+                    animation_controller.SetInteger("state", 1);
+                    velocity = velocity < 0.0f ? 0.0f : velocity >= walk_velocity ? walk_velocity : velocity + 0.01f;
+                }
             }
-            else if(Input.GetKey(KeyCode.RightArrow))
+            // backwards
+            else if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)){
+
+                //crouching backwards
+                if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+                {
+                    animation_controller.SetInteger("state", 5);
+                    is_crouching = true;
+
+                    float neg_crouch_velocity = ((float)-1 * crouch_velocity);
+                    velocity = velocity > 0.0f ? 0.0f : velocity <=  neg_crouch_velocity ? neg_crouch_velocity : velocity - 0.01f; 
+                }
+                //walking backwards
+                else{
+                    animation_controller.SetInteger("state", 6);
+                    float neg_walk_velocity = ((float)-1 * (float)(walk_velocity / 1.5));
+                    velocity = velocity > 0.0f ? 0.0f : velocity <= neg_walk_velocity ? neg_walk_velocity : velocity - 0.01f;  
+                }
+            }
+            // jumps
+            else if(Input.GetKey(KeyCode.Space) && !is_jumping){
+                animation_controller.SetInteger("state", 3);
+                //horizVelocity = horizVelocity < 0.0f ? 0.0f : velocity >= jump_velocty ? jump_velocty : velocity + 0.05f;
+                horizVelocity = 5.0f;
+            }
+            //idle
+            else{
+                animation_controller.SetInteger("state", 0);
+                velocity = 0.0f;
+            }
+
+            // display the inventory
+            if (Input.GetKeyDown("tab")) {
+                ShowMungoInventory();
+                if(has_won == false){
+                    has_won = true;
+                }else{
+                    has_won = false;
+                }
+            }
+
+            if(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            {  
+                transform.Rotate(new Vector3(0.0f, -1f, 0.0f));
+            }
+            else if(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
             {
-                transform.Rotate(new Vector3(0.0f, 2f, 0.0f));
+                transform.Rotate(new Vector3(0.0f, 1f, 0.0f));
             }
 
             float xdirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
             float zdirection = Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
+
+            transform.position = new Vector3(transform.position.x + velocity * xdirection * Time.deltaTime, horizVelocity, transform.position.z + velocity * zdirection * Time.deltaTime);
+
             Vector3 movement_direction = new Vector3(xdirection, 0.0f, zdirection);
 
-            if(Input.GetKey(KeyCode.UpArrow))
-            {  
-                /*
-                if(Input.GetKey(KeyCode.Tab)){
-                    velocity = walk_velocity;
-                }else{
-                    velocity = walk_velocity*3;
-                }*/
+            // if(mung_controller.isGrounded){
+            //     if(Input.GetKey(KeyCode.Space))
+            //     {
+            //         horizVelocity = 4;  
+            //     }
+            // }
 
-                velocity = walk_velocity*3;
+            //updating CapuleCollider based on crouching
+            if (is_crouching){
+                GetComponent<CapsuleCollider>().center = new Vector3(GetComponent<CapsuleCollider>().center.x, 0.0f, GetComponent<CapsuleCollider>().center.z);
             }
-            /*
-            else if(Input.GetKey(KeyCode.DownArrow))
-            {
-                velocity = -100;
-            }
-            */
             else{
-                velocity = 0;
+                GetComponent<CapsuleCollider>().center = new Vector3(GetComponent<CapsuleCollider>().center.x, 0.9f, GetComponent<CapsuleCollider>().center.z);
             }
 
-            if(cc.isGrounded){
-                dubJump = false;
-                if(Input.GetKey(KeyCode.Space))
-                {  
-                    horizVelocity = 4;  
-                }
-            }
-
-            if(!cc.isGrounded && !dubJump){
-                if(Input.GetKey(KeyCode.Q))
-                {  
-                    cc.Move(movement_direction * velocity);
-                    dubJump = true;
-                }
-            }
-
-            movement_direction.y = (float)horizVelocity;
+            // if(!mung_controller.isGrounded && !dubJump){
+            //     if(Input.GetKey(KeyCode.Q))
+            //     {  
+            //         mung_controller.Move(movement_direction * velocity);
+            //         dubJump = true;
+            //     }
+            // }
 
             movement_direction.x *= Time.deltaTime * velocity;
+            movement_direction.y = (float) horizVelocity;
             movement_direction.z *= Time.deltaTime * velocity;
-            cc.Move(movement_direction);
+            mung_controller.Move(movement_direction);
 
         }
+
     }
 
         public void PlayMathGame(Item item) {
