@@ -7,6 +7,7 @@ using System;
 public class MathGame : MonoBehaviour
 {
     
+    public GameManager gm;
     public Text value_txt;    // display new item value
     public Text net_val_txt;  // display mungo's net value
     public InputField answer_field; // user types math answer
@@ -41,6 +42,7 @@ public class MathGame : MonoBehaviour
             int.Parse(answer);
             if (int.Parse(answer) != correct) {
                 timestamp_wrong_answer = Time.unscaledTime;
+                gm.PlayWrongAnswerSound();
                 wrong_ansr_txt.text = "Wrong Answer!\nFood Abandoned";
                 mungo.EndMathGame();
             } else {

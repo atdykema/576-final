@@ -22,6 +22,8 @@ public class Mungo : MonoBehaviour
 
     private float horizVelocity;
     private bool dubJump;
+
+    public GameManager gm;
     public Dictionary<int, int> fruitList;
 
 
@@ -78,6 +80,11 @@ public class Mungo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        // display the inventory
+        if (Input.GetKeyDown("tab") && !mathGameOpen) {
+            ShowMungoInventory();
+        }
 
         if(!has_won && !isPaused){
 
@@ -159,12 +166,6 @@ public class Mungo : MonoBehaviour
 
             //animation_controller.GetInteger("state");
 
-            // display the inventory
-            Debug.Log($"mathgamevalue:{mathGameOpen}");
-            if (Input.GetKeyDown("tab") && !mathGameOpen) {
-                ShowMungoInventory();
-            }
-
             if(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             {  
                 transform.Rotate(new Vector3(0.0f, -1f, 0.0f));
@@ -237,6 +238,7 @@ public class Mungo : MonoBehaviour
     }
     
     public void AddItemToInventory(Item item) {
+        gm.PlayMoneySound();
         inventory.AddItem(item);
         uiInventory.RefreshInventoryItems();
         //inventory.AddItem(new Item { itemType = Item.ItemType.PurpleFood, amount = 1, level = level });    
@@ -299,6 +301,7 @@ public class Mungo : MonoBehaviour
                 break;
         }
         if (isFood) {
+            gm.PlayCollectedFruitSound();
             PlayMathGame(collidedItem);
             Debug.Log("should destroy other object");
             //Destroy(other.gameObject);

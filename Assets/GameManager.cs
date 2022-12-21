@@ -20,7 +20,12 @@ public class GameManager : MonoBehaviour
     public GameObject finalBossPlate3;
     public GameObject finalBossPlate4;
 
+    public AudioClip fruitAppears;
+    public AudioClip collectedFruit;
+    public AudioClip countMoney;
+    public AudioClip wrongAnswer;
 
+    private AudioSource source;
 
     void Awake(){
         gameManager = this;
@@ -29,6 +34,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        source = gameObject.AddComponent<AudioSource>();
+
         fruit1Game = 0;
         fruit1 = GameObject.Find("fruit1");
         fruit1GamePlate1 = GameObject.Find("fruit1GamePlate1");
@@ -61,7 +68,24 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"finalBossGame{finalBossGame}");
         if(finalBossGame == 4){
+            PlayFruitAppearsSound();
             fruit5.SetActive(true);
         }
+    }
+
+    public void PlayFruitAppearsSound() {
+        source.PlayOneShot(fruitAppears,1.0f);
+    }
+
+    public void PlayCollectedFruitSound() {
+        source.PlayOneShot(collectedFruit,1.0f);
+    }
+
+    public void PlayMoneySound() {
+        source.PlayOneShot(countMoney,1.0f);
+    }
+
+    public void PlayWrongAnswerSound() {
+        source.PlayOneShot(wrongAnswer,1.0f);
     }
 }

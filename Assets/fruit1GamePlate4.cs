@@ -28,6 +28,7 @@ public class fruit1GamePlate4 : MonoBehaviour
                 gm.fruit1Game = 4;
                 this.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0f);
                 isPressed = true;
+                gm.PlayFruitAppearsSound();
                 gm.fruit1.SetActive(true);
             }else{
                 if(!isPressed){
