@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public AudioClip wrongAnswer;
     public AudioClip rightPlatform;
 
+    public AudioClip jumping;
+
     private AudioSource source;
 
     void Awake(){
@@ -91,5 +93,9 @@ public class GameManager : MonoBehaviour
 
     public void PlayPlatformFoundSound() {
         source.PlayOneShot(rightPlatform,1.0f);
+    }
+
+    public void JumpingSound(){
+        source.PlayOneShot(jumping, 1.0f);
     }
 }

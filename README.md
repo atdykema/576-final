@@ -2,8 +2,16 @@ Work split draft:
 
 Nolan:
     Main character animations
+        - mungo.cs
+
     Main character movement and interaction
-    NPC animations? 
+        - mungo.cs 
+
+    (Note: There were several issues surrounding the jumping mechanics, after a good chunk of time talking to team members, we couldn't figure out how to properly implement the jump so that the character's y-position would change beyond the animaion. Therefore, we put a cube in for the demo.)
+
+    (Due to unexpected errors that could not be resolved, a large portion of work I did had to be scrapped. This includes non-enemy NPC and interactions, more puzzles with a simon game, etc)
+
+    Implemented npc models into game
 
 Kelsey:
     Created inventory UI and logic: 
@@ -57,14 +65,6 @@ Drew:
     Collectible items on the map
     NPC functionality (AI? Interact with main character?)
 
-
-Left to do until Minimum Viable Product:
-- Set current fruits to Kelsey's new fruits
-- Game win screen
-- Game over screen? (It currently just goes back to start screen which should be fine)
-- Create exit to the game in the world (Like a portal that you jump in and ends the game and counts your score)
-- Character skins/animations
-
 Links to resources used in project:
 - 1. MovingPlatformPath.cs, MovingPlatforms: https://www.youtube.com/watch?v=ly9mK0TGJJo
 - 2. Improved Jumping mechanics: https://www.youtube.com/watch?v=ynh7b-AUSPE
@@ -81,5 +81,8 @@ Unity Assets:
 - HandPainted Lava Textures
 - JungleTemple
 - SpaceSkies Free
+- RPG Monster Duo PBR Polyart
+
+Model and Animations were taken from mixamo.com
 
 

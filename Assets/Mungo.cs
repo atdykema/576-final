@@ -40,6 +40,7 @@ public class Mungo : MonoBehaviour
 
     public int num_lives;
     public int cswitch;
+    public bool jump_sound;
 
     
 
@@ -59,6 +60,9 @@ public class Mungo : MonoBehaviour
         is_jumping = false;
         is_crouching = false;
         dubJump = false;
+
+        jump_sound = false;
+
 
         walk_velocity = 1.5f;
         crouch_velocity = (float)(walk_velocity/2.0);
@@ -96,70 +100,116 @@ public class Mungo : MonoBehaviour
                 //crouching fowards
                 if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
                 {
+                    //Debug.Log("CROUCH FOWARD");
                     animation_controller.SetInteger("state", 4);
+                    velocity = velocity < 0.0f ? 0.0f : velocity >= crouch_velocity ? crouch_velocity : velocity + 1f;
                     is_crouching = true;
-                    velocity = velocity < 0.0f ? 0.0f : velocity >= crouch_velocity ? crouch_velocity : velocity + 0.01f;
                 }
                 //running fowards
-                else if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)){
-
-                    //jumping fowards
-                    if(Input.GetKey(KeyCode.Space) && !is_jumping)
+                else if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                {
+                    // //jumping fowards
+                    if(Input.GetKey(KeyCode.Space))
                     {
+                        //Debug.Log("JUMP FOWARD RUN");
+                        horizVelocity = horizVelocity < 0.0f ? 0.0f : horizVelocity >= 10.0f ? 10.0f : horizVelocity + 1f;
+                        velocity = velocity < 0.0f ? 0.0f : velocity >= run_velocity ? run_velocity : velocity + 0.05f;
                         animation_controller.SetInteger("state", 3);
-                        //horizVelocity = horizVelocity < 0.0f ? 0.0f : velocity >= jump_velocty ? jump_velocty : velocity + 0.05f;
-                        horizVelocity = 5;
-                        is_jumping = true;
+                        // if(!jump_sound){
+                        //     gm.JumpingSound();
+                        //     jump_sound = true;
+                        // }
                     }
                     //running fowards
                     else
                     {
+                        //Debug.Log("RUN FOWARD");
                         animation_controller.SetInteger("state", 2);
                         velocity = velocity < 0.0f ? 0.0f : velocity >= run_velocity ? run_velocity : velocity + 0.05f;
                     }
                 }
                 //jumping fowards
-                else if(Input.GetKey(KeyCode.Space) && !is_jumping)
+                else if(Input.GetKey(KeyCode.Space))
                 {
+                    //Debug.Log("JUMP FOWARD WALK");
+                    horizVelocity = horizVelocity < 0.0f ? 0.0f : horizVelocity >= 10.0f ? 10.0f : horizVelocity + 1f;
+                    velocity = velocity < 0.0f ? 0.0f : velocity >= run_velocity ? run_velocity : velocity + 0.05f;
                     animation_controller.SetInteger("state", 3);
-                    //horizVelocity = horizVelocity < 0.0f ? 0.0f : velocity >= jump_velocty ? jump_velocty : velocity + 0.05f;
-                    horizVelocity = 5;
-                    is_jumping = true;
+                    // if(!jump_sound){
+                    //     gm.JumpingSound();
+                    //     jump_sound = true;
+                    // }
                 }
                 //walking fowards
                 else
                 {
+                    //Debug.Log("WALK FOWARD");
                     animation_controller.SetInteger("state", 1);
                     velocity = velocity < 0.0f ? 0.0f : velocity >= walk_velocity ? walk_velocity : velocity + 0.01f;
                 }
             }
             // backwards
-            else if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)){
-
+            else if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
                 //crouching backwards
                 if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
                 {
+                   // Debug.Log("CROUCH BACKWARDS");
                     animation_controller.SetInteger("state", 5);
                     is_crouching = true;
-
                     float neg_crouch_velocity = ((float)-1 * crouch_velocity);
                     velocity = velocity > 0.0f ? 0.0f : velocity <=  neg_crouch_velocity ? neg_crouch_velocity : velocity - 0.01f; 
                 }
                 //walking backwards
-                else{
+                else
+                {
+                    //Debug.Log("WALK BACKWARDS");
                     animation_controller.SetInteger("state", 6);
                     float neg_walk_velocity = ((float)-1 * (float)(walk_velocity / 1.5));
                     velocity = velocity > 0.0f ? 0.0f : velocity <= neg_walk_velocity ? neg_walk_velocity : velocity - 0.01f;  
                 }
             }
-            // jumps
-            else if(Input.GetKey(KeyCode.Space) && !is_jumping){
+            else if(Input.GetKey(KeyCode.Space))
+            {
+                //jumping while moving
+                if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                {
+                    //Debug.Log("THIS IS HALLOWEEN");
+                    horizVelocity = horizVelocity < 0.0f ? 0.0f : horizVelocity >= 10.0f ? 10.0f : horizVelocity + 1f;
+                    velocity = velocity < 0.0f ? 0.0f : velocity >= run_velocity ? run_velocity : velocity + 0.05f;
+                    animation_controller.SetInteger("state", 3);
+                    // if(!jump_sound){
+                    //     gm.JumpingSound();
+                    //     jump_sound = true;
+                    // }
+                }
+                //jumping
+                else
+                {
+                    //Debug.Log("STANDARD JUMP");
+                    animation_controller.SetInteger("state", 3);
+                    horizVelocity = horizVelocity < 0.0f ? 0.0f : velocity >= 10.0f ? jump_velocty : velocity + 0.05f;
+                    if(!jump_sound){
+                        gm.JumpingSound();
+                        jump_sound = true;
+                    }
+                }
+            }
+            //jumps
+            else if(Input.GetKey(KeyCode.Space))
+            {
+                //Debug.Log("JUMP");
                 animation_controller.SetInteger("state", 3);
-                //horizVelocity = horizVelocity < 0.0f ? 0.0f : velocity >= jump_velocty ? jump_velocty : velocity + 0.05f;
-                horizVelocity = 5.0f;
+                horizVelocity = horizVelocity < 0.0f ? 0.0f : horizVelocity >= 10.0f ? 10.0f : horizVelocity + 1f;
+                // if(!jump_sound){
+                //     gm.JumpingSound();
+                //     jump_sound = true;
+                // }
             }
             //idle
-            else{
+            else
+            {
+                //Debug.Log("IDLE");
                 animation_controller.SetInteger("state", 0);
                 velocity = 0.0f;
             }
@@ -175,10 +225,12 @@ public class Mungo : MonoBehaviour
                 transform.Rotate(new Vector3(0.0f, 1f, 0.0f));
             }
 
+
             float xdirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
             float zdirection = Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
 
-            transform.position = new Vector3(transform.position.x + velocity * xdirection * Time.deltaTime, horizVelocity, transform.position.z + velocity * zdirection * Time.deltaTime);
+            //transform.position = new Vector3(transform.position.x + velocity * xdirection * Time.deltaTime, horizVelocity * Time.deltaTime, transform.position.z + velocity * zdirection * Time.deltaTime);
+
 
             Vector3 movement_direction = new Vector3(xdirection, 0.0f, zdirection);
 
@@ -189,7 +241,7 @@ public class Mungo : MonoBehaviour
             //     }
             // }
 
-            //updating CapuleCollider based on crouching
+            //updating CapsuleCollider based on crouching
             if (is_crouching){
                 GetComponent<CapsuleCollider>().center = new Vector3(GetComponent<CapsuleCollider>().center.x, 0.0f, GetComponent<CapsuleCollider>().center.z);
             }
