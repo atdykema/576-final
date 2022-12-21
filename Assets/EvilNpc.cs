@@ -54,7 +54,7 @@ public class EvilNpc : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.name == "Mungo" && !has_won){
-            SceneManager.LoadScene("StartScene");
+            SceneManager.LoadScene("LostScene");
         }
     }
 }

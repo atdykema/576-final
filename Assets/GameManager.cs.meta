@@ -3,7 +3,21 @@ guid: c9c7d3f09137c49f9b4e9558dce96346
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - fruit1: {instanceID: 0}
+  - fruit1GamePlate1: {instanceID: 0}
+  - fruit1GamePlate2: {instanceID: 0}
+  - fruit1GamePlate3: {instanceID: 0}
+  - fruit1GamePlate4: {instanceID: 0}
+  - fruit5: {instanceID: 0}
+  - finalBossPlate1: {instanceID: 0}
+  - finalBossPlate2: {instanceID: 0}
+  - finalBossPlate3: {instanceID: 0}
+  - finalBossPlate4: {instanceID: 0}
+  - fruitAppears: {fileID: 8300000, guid: 318aae71dc7ca45259c256064a55fdd3, type: 3}
+  - collectedFruit: {fileID: 8300000, guid: e12b35ba31fe44a28ad6db43eda544fb, type: 3}
+  - countMoney: {fileID: 8300000, guid: 929963577e49641e9980a13955bf998f, type: 3}
+  - wrongAnswer: {fileID: 8300000, guid: f1c22440ed7904acea532b22b7f3c0ed, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

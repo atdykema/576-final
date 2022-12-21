@@ -7,10 +7,13 @@ public class ScoreToScene : MonoBehaviour
 {
     int score;
     public Text textBox;
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    public AudioClip wonSound;
+    private AudioSource source; 
+
+    void Start() {
+        source = gameObject.AddComponent<AudioSource>();
+        source.PlayOneShot(wonSound,1.0f);
     }
 
     // Update is called once per frame

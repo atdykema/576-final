@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ScoreScreen.unity
     guid: 0729a2dcde5514a17a6a7db87ca1a9c0
+  - enabled: 1
+    path: Assets/Scenes/LostScene.unity
+    guid: 0310b5742bf98415392f797d27f62916
   m_configObjects: {}
