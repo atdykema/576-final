@@ -32,6 +32,7 @@ public class fruit1GamePlate4 : MonoBehaviour
                 gm.fruit1.SetActive(true);
             }else{
                 if(!isPressed){
+                    gm.PlayWrongAnswerSound();
                     gm.fruit1Game = -1;
                 }
             }

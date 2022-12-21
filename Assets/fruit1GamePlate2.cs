@@ -26,10 +26,12 @@ public class fruit1GamePlate2 : MonoBehaviour
         if(other.name == "Mungo"){
             if( gm.fruit1Game == 1){
                 gm.fruit1Game = 2;
+                gm.PlayPlatformFoundSound();
                 this.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0f);
                 isPressed = true;
             }else{
                 if(!isPressed){
+                    gm.PlayWrongAnswerSound();
                     gm.fruit1Game = -1;
                 }
             }

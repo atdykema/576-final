@@ -215,12 +215,17 @@ public class Mungo : MonoBehaviour
     }
 
     public void PlayMathGame(Item item) {
+        Debug.Log("trying to play the math game");
         mathGameOpen = true;
         mathGame.currentItem = item;
+        Debug.Log("before reset game");
         mathGame.ResetGame();
         Animator mathAnimator = mathGame.GetComponent<Animator>();
         if(mathAnimator != null) {
+            Debug.Log("animator is not null");
             mathAnimator.SetBool("show", true);
+        } else {
+            Debug.Log("animator is DEF null");
         }
         Time.timeScale = 0;
     }
@@ -302,6 +307,7 @@ public class Mungo : MonoBehaviour
         }
         if (isFood) {
             gm.PlayCollectedFruitSound();
+            Debug.Log("should play math game");
             PlayMathGame(collidedItem);
             Debug.Log("should destroy other object");
             //Destroy(other.gameObject);

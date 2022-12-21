@@ -23,6 +23,7 @@ public class finalBossPlate : MonoBehaviour
     {
         if(other.name == "Mungo"){
             if(!isPressed){
+                gm.PlayPlatformFoundSound();
                 gameObject.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0f);
                 gm.finalBossGame++;
                 isPressed = true;
