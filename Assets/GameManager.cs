@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public AudioClip collectedFruit;
     public AudioClip countMoney;
     public AudioClip wrongAnswer;
+    public AudioClip rightPlatform;
 
     private AudioSource source;
 
@@ -66,7 +67,6 @@ public class GameManager : MonoBehaviour
             fruit1Game = 0;
         }
 
-        Debug.Log($"finalBossGame{finalBossGame}");
         if(finalBossGame == 4){
             PlayFruitAppearsSound();
             fruit5.SetActive(true);
@@ -87,5 +87,9 @@ public class GameManager : MonoBehaviour
 
     public void PlayWrongAnswerSound() {
         source.PlayOneShot(wrongAnswer,1.0f);
+    }
+
+    public void PlayPlatformFoundSound() {
+        source.PlayOneShot(rightPlatform,1.0f);
     }
 }
