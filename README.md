@@ -28,11 +28,13 @@ Kelsey:
     Worked on End Scene UI
     - ScoreToScene.cs
 
+    Created scene for when you lose
+    - LostCanvas.cs
 
+    Added Sounds
+    - in GameManager.cs: win, lose, fruit appears, collect fruit, add to inventory, wrong math answer
 
-    Inventory functionality & UI
-    Educational portion functionality & UI (adding value to total)
-    Beginning and end screens UI
+    Modified a few lines in other various scripts - and managed related game objects in the scene.
 
 Drew:
     Built out inner castle area of map (four towers and everything inside castle walls)
